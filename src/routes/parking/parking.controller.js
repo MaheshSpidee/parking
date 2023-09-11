@@ -66,7 +66,7 @@ class ParkingController {
                 diff /= 1000;
                 x.amount = Math.ceil(Math.round(diff) / 3600) * x.ratecard;
                 const { vehicle_number, vehicle_type, amount } = x;
-                return { vehicle_number, vehicle_type, amount };
+                return x;
             });
             return res.json({ code: 200, message: "Vehicle details Fetched Successfully.", error: null, data: vehicle });
         } catch (err) {

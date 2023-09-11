@@ -28,9 +28,9 @@ class ParkingModel {
     * @returns 
     * @author Kasarla Mahesh<kasarlamahesh4@gmail.com>
     */
-    enterVehicle(vehicleNumber, type) {
-        let query = `INSERT INTO parkings (vehicle_number, vehicle_type,from_time) VALUES (?, ?, ?)`;
-        return mySql.query(query, [vehicleNumber, type, new Date()]);
+    enterVehicle(vehicleNumber, type, vehicle_model) {
+        let query = `INSERT INTO parkings (vehicle_number, vehicle_type, vehicle_model, from_time) VALUES (?, ?, ?, ?)`;
+        return mySql.query(query, [vehicleNumber, type, vehicle_model, new Date()]);
     }
 
     /**
@@ -41,9 +41,11 @@ class ParkingModel {
     * @author Kasarla Mahesh<kasarlamahesh4@gmail.com>
     */
     getParkings(vehicleNumber) {
-        let query = `SELECT p.id, p.vehicle_number, ps.vehicle_type, 
+        let query = `SELECT p.id, p.vehicle_number, vt.type as vehicle_type, ct.type as vehicle_model,
                      ps.capacity, ps.ratecard, p.from_time FROM parkings p
                      INNER JOIN parking_settings ps ON ps.id=p.vehicle_type 
+                     INNER JOIN car_types ct ON ct.id=p.vehicle_model
+                     INNER JOIN vehicle_types vt ON vt.id=p.vehicle_type
                       WHERE p.vehicle_number=?`;
         return mySql.query(query, [vehicleNumber]);
     }
